@@ -25,7 +25,7 @@ public class Upload extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Logger logger = LogManager.getLogger();
         String savePath = getServletContext().getRealPath("/image");
-        savePath=savePath+"/";
+        savePath = savePath + "/";
 //        String savePath="D:\\IdeaProjects\\Striker\\web\\image\\";
         response.setCharacterEncoding("UTF-8");
         try {
@@ -38,12 +38,12 @@ public class Upload extends HttpServlet {
                 return;
             }
             List<FileItem> list = upload.parseRequest(request);
-            for (int i = 0; i < list.size(); i=i+2) {
-                FileItem item=list.get(i);
-                String imgName=item.getString();
-                System.out.println("image: "+i+" "+imgName);
-                item=list.get(i+1);
-                String ContentType=item.getContentType();
+            for (int i = 0; i < list.size(); i = i + 2) {
+                FileItem item = list.get(i);
+                String imgName = item.getString();
+                System.out.println("image: " + i + " " + imgName);
+                item = list.get(i + 1);
+                String ContentType = item.getContentType();
                 if (ContentType.startsWith("image/")) {
                     InputStream in = item.getInputStream();
                     File imgFile = new File(savePath + imgName);
@@ -54,6 +54,7 @@ public class Upload extends HttpServlet {
                     while ((len = in.read(buffer)) > 0) {
                         out.write(buffer, 0, len);
                     }
+                    imgFile.setReadable(true, false);
                     in.close();
                     out.close();
                     item.delete();
